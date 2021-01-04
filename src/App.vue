@@ -41,9 +41,6 @@ export default {
 
 .container {
   max-width: var(--container-width);
-  margin-left: auto;
-  margin-right: auto;
-
-  margin-top: 120px;
+  margin: 120px auto;
 }
 </style>

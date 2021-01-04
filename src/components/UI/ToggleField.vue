@@ -49,9 +49,10 @@ export default {
   font-size: 17px;
   line-height: 22px;
   text-transform: capitalize;
-  z-index: 2;
-
   cursor: pointer;
+
+  z-index: 2;
+  transition: all 0.3s ease-out;
 
   color: var(--color-grey-9);
   &.active {
