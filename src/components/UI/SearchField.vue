@@ -5,9 +5,11 @@
       type="text"
       name="search"
       placeholder="Search"
-      @input="$emit('search', $event.target.value)"
+      v-model="query"
+      @input="$emit('search', query)"
     />
     <svg
+      v-if="query === ''"
       class="search-icon"
       width="20"
       height="21"
@@ -24,12 +26,42 @@
         fill="#ECF2F9"
       />
     </svg>
+    <svg
+      v-else
+      class="clear-icon"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      @click="clearQuery"
+    >
+      <path
+        d="M14.7836 16.1953C15.1742 16.5857 15.8074 16.5856 16.1978 16.195C16.5883 15.8043 16.5881 15.1712 16.1975 14.7807L14.7836 16.1953ZM5.1836 3.77195C4.79298 3.38151 4.15982 3.38166 3.76938 3.77228C3.37895 4.16289 3.3791 4.79606 3.76971 5.18649L5.1836 3.77195ZM16.1975 14.7807L5.1836 3.77195L3.76971 5.18649L14.7836 16.1953L16.1975 14.7807Z"
+        fill="#B2BFCF"
+      />
+      <path
+        d="M16.1953 5.1836C16.5857 4.79298 16.5856 4.15982 16.195 3.76938C15.8043 3.37895 15.1712 3.3791 14.7807 3.76971L16.1953 5.1836ZM3.77195 14.7836C3.38151 15.1742 3.38166 15.8074 3.77228 16.1978C4.16289 16.5883 4.79606 16.5881 5.18649 16.1975L3.77195 14.7836ZM14.7807 3.76971L3.77195 14.7836L5.18649 16.1975L16.1953 5.1836L14.7807 3.76971Z"
+        fill="#B2BFCF"
+      />
+    </svg>
   </div>
 </template>
 
 <script>
 export default {
   name: "SearchField",
+  data() {
+    return {
+      query: "",
+    };
+  },
+  methods: {
+    clearQuery() {
+      this.query = "";
+      this.$emit("search", "");
+    },
+  },
 };
 </script>
 
@@ -58,6 +90,13 @@ export default {
     &::placeholder {
       color: var(--color-grey-4);
     }
+  }
+
+  .search-icon {
+  }
+
+  .clear-icon {
+    cursor: pointer;
   }
 }
 </style>
