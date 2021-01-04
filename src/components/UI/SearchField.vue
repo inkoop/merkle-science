@@ -5,6 +5,7 @@
       type="text"
       name="search"
       placeholder="Search"
+      @input="$emit('search', $event.target.value)"
     />
     <svg
       class="search-icon"

@@ -3,7 +3,7 @@
     <div class="table-filter">
       <div class="table-filter__title">Invoices</div>
       <div class="table-filter__fields">
-        <SearchField />
+        <SearchField @search="handleSearch" />
         <ToggleField />
       </div>
     </div>
@@ -15,30 +15,67 @@
           <th>Time period</th>
           <th>Credits Used</th>
           <th>Status</th>
-          <th>&nbsp;</th>
         </tr>
       </thead>
       <tbody class="table-body">
-        <tr class="table-row" v-for="invoice in invoices" :key="invoice.id">
+        <tr
+          class="table-row"
+          v-for="invoice in filteredInvoices"
+          :key="invoice.id"
+        >
           <td class="table-column">{{ invoice.id }}</td>
           <td class="table-column">{{ invoice.amount }}</td>
           <td class="table-column">{{ invoice.timePeriod | formatDate }}</td>
-          <td class="table-column">{{ invoice.creditsUsed }} / 1000</td>
+          <td class="table-column progress-container">
+            <div class="progress-bar">
+              <div
+                class="progress-bar__progress"
+                :style="{
+                  width: `${(invoice.creditsUsed / invoice.creditsLimit) *
+                    100}%`,
+                }"
+              />
+            </div>
+            <div>{{ invoice.creditsUsed }} / 1000</div>
+          </td>
           <td class="table-column">
             <span class="badge">{{
               invoice.isPaid ? "Paid" : "Not Paid"
             }}</span>
           </td>
           <td class="table-column">
-            <button class="btn-download">Receipt</button>
+            <button class="btn-download">
+              <span class="icon"
+                ><svg
+                  width="9"
+                  height="11"
+                  viewBox="0 0 9 11"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.23619 10.0383C1.09342 10.0383 0.97207 9.98829 0.872133 9.88835C0.772197 9.78842 0.722229 9.66707 0.722229 9.5243V9.01034C0.722229 8.86757 0.772197 8.74622 0.872133 8.64629C0.97207 8.54635 1.09342 8.49638 1.23619 8.49638L8.4316 8.49638C8.57437 8.49638 8.69572 8.54635 8.79566 8.64629C8.89559 8.74622 8.94556 8.86757 8.94556 9.01034V9.5243C8.94556 9.66707 8.89559 9.78842 8.79566 9.88835C8.69572 9.98829 8.57437 10.0383 8.4316 10.0383H1.23619Z"
+                    fill="#8A98A8"
+                  />
+                  <path
+                    d="M7.01815 4.02073C7.11809 3.92079 7.23587 3.87082 7.3715 3.87082C7.50713 3.87082 7.62491 3.92079 7.72485 4.02073L8.0889 4.38478C8.18884 4.48472 8.2388 4.60607 8.2388 4.74884C8.2388 4.8916 8.18884 5.01295 8.0889 5.11289L5.19788 8.02532C5.09795 8.12526 4.9766 8.17522 4.83383 8.17522C4.69106 8.17522 4.56971 8.12526 4.46978 8.02532L1.55734 5.11289C1.45741 5.01295 1.40744 4.89517 1.40744 4.75954C1.40744 4.62392 1.46455 4.49899 1.57876 4.38478L1.9214 4.04214C2.02133 3.92793 2.14269 3.87082 2.28545 3.87082C2.42822 3.87082 2.54957 3.92079 2.64951 4.02073L4.06289 5.43411V0.958393C4.06289 0.815627 4.11286 0.694276 4.2128 0.59434C4.31273 0.494403 4.43408 0.444435 4.57685 0.444435L5.09081 0.444435C5.23358 0.444435 5.35493 0.494403 5.45486 0.59434C5.5548 0.694276 5.60477 0.815627 5.60477 0.958393L5.60477 5.43411L7.01815 4.02073Z"
+                    fill="#12181F"
+                  />
+                </svg>
+              </span>
+              <span>Receipt</span>
+            </button>
           </td>
         </tr>
       </tbody>
+      <tfoot class="table-footer"></tfoot>
     </div>
   </div>
 </template>
 
 <script>
+import { format } from "date-fns";
+
 import SearchField from "./UI/SearchField";
 import ToggleField from "./UI/ToggleField";
 
@@ -53,7 +90,8 @@ export default {
           id: "MS7421498",
           amount: 2100,
           timePeriod: new Date(),
-          creditsUsed: "891",
+          creditsUsed: 891,
+          creditsLimit: 1000,
           isPaid: false,
           receiptUrl: "https://google.com",
         },
@@ -61,15 +99,17 @@ export default {
           id: "MS7421499",
           amount: 2100,
           timePeriod: new Date(),
-          creditsUsed: "891",
+          creditsUsed: 891,
+          creditsLimit: 1000,
           isPaid: false,
           receiptUrl: "https://google.com",
         },
         {
           id: "MS7421500",
-          amount: 2100,
+          amount: 700,
           timePeriod: new Date(),
-          creditsUsed: "891",
+          creditsUsed: 891,
+          creditsLimit: 1000,
           isPaid: true,
           receiptUrl: "https://google.com",
         },
@@ -77,7 +117,8 @@ export default {
           id: "MS7421501",
           amount: 2100,
           timePeriod: new Date(),
-          creditsUsed: "891",
+          creditsUsed: 300,
+          creditsLimit: 1000,
           isPaid: true,
           receiptUrl: "https://google.com",
         },
@@ -85,7 +126,8 @@ export default {
           id: "MS7421502",
           amount: 2100,
           timePeriod: new Date(),
-          creditsUsed: "891",
+          creditsUsed: 555,
+          creditsLimit: 1000,
           isPaid: true,
           receiptUrl: "https://google.com",
         },
@@ -93,12 +135,29 @@ export default {
           id: "MS7421503",
           amount: 2100,
           timePeriod: new Date(),
-          creditsUsed: "891",
+          creditsUsed: 891,
+          creditsLimit: 1000,
           isPaid: false,
           receiptUrl: "https://google.com",
         },
       ],
+      filteredInvoices: [],
     };
+  },
+  mounted() {
+    this.filteredInvoices = this.invoices;
+  },
+  methods: {
+    handleSearch(query) {
+      this.filteredInvoices = this.invoices.filter((invoice) => {
+        return (
+          invoice.id.includes(query) ||
+          String(invoice.amount).includes(query) ||
+          String(invoice.creditsUsed).includes(query) ||
+          format(invoice.timePeriod, "d MMM yyyy").includes(query)
+        );
+      });
+    },
   },
 };
 </script>
@@ -171,6 +230,7 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 10px 24px;
+    margin-bottom: 28px;
 
     tr {
       display: grid;
@@ -188,6 +248,20 @@ export default {
 
       padding-top: 12px;
       padding-bottom: 12px;
+
+      &.progress-container {
+        display: flex;
+        align-items: center;
+      }
+
+      border-bottom: 1px solid var(--color-grey-1);
+    }
+
+    .table-footer {
+      display: flex;
+      justify-content: space-between;
+
+      padding: 10px 24px;
     }
   }
 }
@@ -212,6 +286,8 @@ export default {
   box-shadow: 0px 1px 3px rgba(0, 52, 102, 0.06),
     0px 1px 2px rgba(0, 52, 102, 0.12);
   border-radius: 2px;
+  padding: 3.5px 6px;
+  cursor: pointer;
 
   font-family: Inter;
   font-style: normal;
@@ -221,6 +297,36 @@ export default {
 
   color: var(--color-grey-9);
 
-  padding: 3.5px 6px;
+  &:hover {
+    background: var(--color-grey-1);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .icon {
+    margin-right: 7px;
+  }
+}
+
+.progress-bar {
+  background: var(--color-grey-2);
+  border-radius: 4px;
+
+  position: relative;
+
+  width: 53px;
+  height: 4px;
+
+  margin-right: 10px;
+
+  &__progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    height: 4px;
+
+    background: #0283ff;
+    border-radius: 4px;
+  }
 }
 </style>
