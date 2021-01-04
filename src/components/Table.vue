@@ -10,11 +10,11 @@
     <div class="table">
       <thead class="table-header">
         <tr>
-          <th>ID</th>
-          <th>Amount</th>
-          <th>Time period</th>
-          <th>Credits Used</th>
-          <th>Status</th>
+          <th @click="sortRows('id')">ID</th>
+          <th @click="sortRows('amount')">Amount</th>
+          <th @click="sortRows('timePeriod')">Time period</th>
+          <th @click="sortRows('creditsUsed')">Credits Used</th>
+          <th @click="sortRows('isPaid')">Status</th>
         </tr>
       </thead>
       <tbody class="table-body">
@@ -142,6 +142,8 @@ export default {
         },
       ],
       filteredInvoices: [],
+      sortField: "",
+      isAscending: true,
     };
   },
   mounted() {
@@ -149,13 +151,35 @@ export default {
   },
   methods: {
     handleSearch(query) {
+      const lowerCaseQuery = query.toLowerCase();
       this.filteredInvoices = this.invoices.filter((invoice) => {
         return (
-          invoice.id.includes(query) ||
-          String(invoice.amount).includes(query) ||
-          String(invoice.creditsUsed).includes(query) ||
-          format(invoice.timePeriod, "d MMM yyyy").includes(query)
+          invoice.id.toLowerCase().includes(lowerCaseQuery) ||
+          String(invoice.amount)
+            .toLowerCase()
+            .includes(lowerCaseQuery) ||
+          String(invoice.creditsUsed)
+            .toLowerCase()
+            .includes(lowerCaseQuery) ||
+          format(invoice.timePeriod, "d MMM yyyy")
+            .toLowerCase()
+            .includes(lowerCaseQuery)
         );
+      });
+    },
+    sortRows(field) {
+      if (this.sortField === field) {
+        this.isAscending = !this.isAscending;
+      }
+
+      this.sortField = field;
+      this.filteredInvoices = this.filteredInvoices.sort((i1, i2) => {
+        if (i1[field] > i2[field]) {
+          return this.isAscending ? 1 : -1;
+        } else if (i1[field] < i2[field]) {
+          return this.isAscending ? -1 : 1;
+        }
+        return 0;
       });
     },
   },
@@ -221,8 +245,8 @@ export default {
       font-size: 16px;
       line-height: 140%;
       text-align: left;
-
       color: var(--color-grey-5);
+      cursor: pointer;
     }
   }
 
@@ -235,6 +259,10 @@ export default {
     tr {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1.5fr 1fr 1fr;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
     }
 
     td {
@@ -243,18 +271,16 @@ export default {
       font-weight: 600;
       font-size: 18px;
       line-height: 22px;
-
       color: var(--color-grey-9);
 
       padding-top: 12px;
       padding-bottom: 12px;
+      border-bottom: 1px solid var(--color-grey-1);
 
       &.progress-container {
         display: flex;
         align-items: center;
       }
-
-      border-bottom: 1px solid var(--color-grey-1);
     }
 
     .table-footer {
