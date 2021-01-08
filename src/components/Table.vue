@@ -68,7 +68,13 @@
           </td>
         </tr>
       </tbody>
-      <tfoot class="table-footer"></tfoot>
+      <tfoot class="table-footer">
+        <Pagination
+          :currentPage="pagination.currentPage"
+          :totalPages="pagination.totalPages"
+          @changePage="changePage"
+        />
+      </tfoot>
     </div>
   </div>
 </template>
@@ -78,81 +84,35 @@ import { format } from "date-fns";
 
 import SearchField from "./UI/SearchField";
 import ToggleField from "./UI/ToggleField";
+import Pagination from "./UI/Pagination";
+
+import { invoices } from "../mock";
 
 export default {
   name: "Table",
   props: { msg: String },
-  components: { SearchField, ToggleField },
+  components: { SearchField, ToggleField, Pagination },
   data() {
     return {
-      invoices: [
-        {
-          id: "MS7421498",
-          amount: 2100,
-          timePeriod: new Date(),
-          creditsUsed: 891,
-          creditsLimit: 1000,
-          isPaid: false,
-          receiptUrl: "https://google.com",
-        },
-        {
-          id: "MS7421499",
-          amount: 2100,
-          timePeriod: new Date(),
-          creditsUsed: 891,
-          creditsLimit: 1000,
-          isPaid: false,
-          receiptUrl: "https://google.com",
-        },
-        {
-          id: "MS7421500",
-          amount: 700,
-          timePeriod: new Date(),
-          creditsUsed: 891,
-          creditsLimit: 1000,
-          isPaid: true,
-          receiptUrl: "https://google.com",
-        },
-        {
-          id: "MS7421501",
-          amount: 2100,
-          timePeriod: new Date(),
-          creditsUsed: 300,
-          creditsLimit: 1000,
-          isPaid: true,
-          receiptUrl: "https://google.com",
-        },
-        {
-          id: "MS7421502",
-          amount: 2100,
-          timePeriod: new Date(),
-          creditsUsed: 555,
-          creditsLimit: 1000,
-          isPaid: true,
-          receiptUrl: "https://google.com",
-        },
-        {
-          id: "MS7421503",
-          amount: 2100,
-          timePeriod: new Date(),
-          creditsUsed: 891,
-          creditsLimit: 1000,
-          isPaid: false,
-          receiptUrl: "https://google.com",
-        },
-      ],
-      filteredInvoices: [],
+      filteredInvoices: invoices,
+      pagination: {
+        currentPage: 0,
+        perPage: 6,
+        totalPages: 0,
+      },
       sortField: "",
       isAscending: true,
     };
   },
-  mounted() {
-    this.filteredInvoices = this.invoices;
+  created() {
+    const { perPage } = this.pagination;
+    this.filteredInvoices = invoices.slice(0, perPage);
+    this.pagination.totalPages = Math.ceil(invoices.length / perPage);
   },
   methods: {
     handleSearch(query) {
       const lowerCaseQuery = query.toLowerCase();
-      this.filteredInvoices = this.invoices.filter((invoice) => {
+      this.filteredInvoices = invoices.filter((invoice) => {
         return (
           invoice.id.toLowerCase().includes(lowerCaseQuery) ||
           String(invoice.amount)
@@ -181,6 +141,13 @@ export default {
         }
         return 0;
       });
+    },
+    changePage(page) {
+      const { perPage } = this.pagination;
+      const start = page * perPage;
+      const end = page * perPage + perPage;
+      this.pagination.currentPage = page;
+      this.filteredInvoices = invoices.slice(start, end);
     },
   },
 };
@@ -253,7 +220,7 @@ export default {
   .table-body {
     display: flex;
     flex-direction: column;
-    padding: 10px 24px;
+    padding: 10px 24px 0 24px;
     margin-bottom: 28px;
 
     tr {
@@ -282,13 +249,15 @@ export default {
         align-items: center;
       }
     }
+  }
 
-    .table-footer {
-      display: flex;
-      justify-content: space-between;
+  .table-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
 
-      padding: 10px 24px;
-    }
+    padding: 0 24px;
+    margin-bottom: 20px;
   }
 }
 
