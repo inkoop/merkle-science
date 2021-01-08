@@ -18,11 +18,7 @@
         </tr>
       </thead>
       <tbody class="table-body">
-        <tr
-          class="table-row"
-          v-for="invoice in filteredInvoices"
-          :key="invoice.id"
-        >
+        <tr class="table-row" v-for="invoice in invoices" :key="invoice.id">
           <td class="table-column invoice-id" @click="openModal(invoice)">
             {{ invoice.id }}
           </td>
@@ -100,7 +96,7 @@ import Pagination from "./UI/Pagination";
 import GotoPage from "./UI/GotoPage";
 import Modal from "./UI/Modal";
 
-import { invoices } from "../mock";
+import { invoices as allInvoices } from "../mock";
 
 export default {
   name: "Table",
@@ -108,7 +104,7 @@ export default {
   components: { SearchField, ToggleField, Pagination, GotoPage, Modal },
   data() {
     return {
-      filteredInvoices: invoices,
+      invoices: allInvoices,
       pagination: {
         currentPage: 0,
         perPage: 6,
@@ -123,15 +119,15 @@ export default {
   },
   created() {
     const { perPage } = this.pagination;
-    this.filteredInvoices = invoices.slice(0, perPage);
-    this.pagination.totalPages = Math.ceil(invoices.length / perPage);
+    this.invoices = allInvoices.slice(0, perPage);
+    this.pagination.totalPages = Math.ceil(allInvoices.length / perPage);
   },
   watch: {
     viewMode() {
       if (this.viewMode === "Infinite") {
-        this.filteredInvoices = invoices;
+        this.invoices = allInvoices;
       } else {
-        this.filteredInvoices = invoices.slice(0, this.pagination.perPage);
+        this.invoices = allInvoices.slice(0, this.pagination.perPage);
       }
     },
   },
@@ -148,7 +144,7 @@ export default {
     },
     handleSearch(query) {
       const lowerCaseQuery = query.toLowerCase();
-      this.filteredInvoices = invoices.filter((invoice) => {
+      this.invoices = allInvoices.filter((invoice) => {
         return (
           invoice.id.toLowerCase().includes(lowerCaseQuery) ||
           String(invoice.amount)
@@ -162,6 +158,7 @@ export default {
             .includes(lowerCaseQuery)
         );
       });
+      this.viewMode = "Infinite";
     },
     sortRows(field) {
       if (this.sortField === field) {
@@ -169,7 +166,7 @@ export default {
       }
 
       this.sortField = field;
-      this.filteredInvoices = invoices.sort((i1, i2) => {
+      this.invoices = allInvoices.sort((i1, i2) => {
         if (i1[field] > i2[field]) {
           return this.isAscending ? 1 : -1;
         } else if (i1[field] < i2[field]) {
@@ -177,18 +174,15 @@ export default {
         }
         return 0;
       });
-
-      // INFO: Paginate data if in Pagination View Mode
-      if (this.viewMode === "LimitOffset") {
-        this.changePage(this.pagination.currentPage);
-      }
+      // FIXME:
+      this.viewMode = "Infinite";
     },
     changePage(page) {
       const { perPage } = this.pagination;
       const start = page * perPage;
       const end = page * perPage + perPage;
       this.pagination.currentPage = page;
-      this.filteredInvoices = invoices.slice(start, end);
+      this.invoices = allInvoices.slice(start, end);
     },
   },
 };
