@@ -74,6 +74,10 @@
           :totalPages="pagination.totalPages"
           @changePage="changePage"
         />
+        <GotoPage
+          :currentPage="pagination.currentPage"
+          @changePage="changePage"
+        />
       </tfoot>
     </div>
   </div>
@@ -85,13 +89,14 @@ import { format } from "date-fns";
 import SearchField from "./UI/SearchField";
 import ToggleField from "./UI/ToggleField";
 import Pagination from "./UI/Pagination";
+import GotoPage from "./UI/GotoPage";
 
 import { invoices } from "../mock";
 
 export default {
   name: "Table",
   props: { msg: String },
-  components: { SearchField, ToggleField, Pagination },
+  components: { SearchField, ToggleField, Pagination, GotoPage },
   data() {
     return {
       filteredInvoices: invoices,
@@ -254,7 +259,6 @@ export default {
   .table-footer {
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
 
     padding: 0 24px;
     margin-bottom: 20px;
