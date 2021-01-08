@@ -3,21 +3,21 @@
     <div
       class="toggle-container__bar"
       :class="{
-        first: selectedOption === 'LimitOffset',
-        second: selectedOption === 'Infinite',
+        first: viewMode === 'LimitOffset',
+        second: viewMode === 'Infinite',
       }"
     />
     <div
       class="toggle-container__first"
-      :class="{ active: selectedOption === 'LimitOffset' }"
-      @click="selectOption('LimitOffset')"
+      :class="{ active: viewMode === 'LimitOffset' }"
+      @click="$emit('selectViewMode', 'LimitOffset')"
     >
       Limit Offset
     </div>
     <div
       class="toggle-container__last"
-      :class="{ active: selectedOption === 'Infinite' }"
-      @click="selectOption('Infinite')"
+      :class="{ active: viewMode === 'Infinite' }"
+      @click="$emit('selectViewMode', 'Infinite')"
     >
       Infinite
     </div>
@@ -27,12 +27,7 @@
 <script>
 export default {
   name: "ToggleField",
-  data() {
-    return {
-      options: ["LimitOffset", "Infinite"],
-      selectedOption: "LimitOffset",
-    };
-  },
+  props: ["viewMode"],
   methods: {
     selectOption(option) {
       this.selectedOption = option;

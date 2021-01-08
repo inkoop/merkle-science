@@ -4,7 +4,7 @@
       <div class="table-filter__title">Invoices</div>
       <div class="table-filter__fields">
         <SearchField @search="handleSearch" />
-        <ToggleField />
+        <ToggleField :viewMode="viewMode" @selectViewMode="selectViewMode" />
       </div>
     </div>
     <div class="table">
@@ -70,7 +70,7 @@
           </td>
         </tr>
       </tbody>
-      <tfoot class="table-footer">
+      <tfoot class="table-footer" v-if="viewMode === 'LimitOffset'">
         <Pagination
           :currentPage="pagination.currentPage"
           :totalPages="pagination.totalPages"
@@ -115,6 +115,7 @@ export default {
         totalPages: 0,
       },
       sortField: "",
+      viewMode: "LimitOffset",
       isAscending: true,
       isOpen: false,
       selectedInvoice: {},
@@ -125,6 +126,15 @@ export default {
     this.filteredInvoices = invoices.slice(0, perPage);
     this.pagination.totalPages = Math.ceil(invoices.length / perPage);
   },
+  watch: {
+    viewMode() {
+      if (this.viewMode === "Infinite") {
+        this.filteredInvoices = invoices;
+      } else {
+        this.filteredInvoices = invoices.slice(0, this.pagination.perPage);
+      }
+    },
+  },
   methods: {
     openModal(invoice) {
       this.selectedInvoice = invoice;
@@ -132,6 +142,9 @@ export default {
     },
     toggleModal() {
       this.isOpen = !this.isOpen;
+    },
+    selectViewMode(mode) {
+      this.viewMode = mode;
     },
     handleSearch(query) {
       const lowerCaseQuery = query.toLowerCase();
@@ -156,7 +169,7 @@ export default {
       }
 
       this.sortField = field;
-      this.filteredInvoices = this.filteredInvoices.sort((i1, i2) => {
+      this.filteredInvoices = invoices.sort((i1, i2) => {
         if (i1[field] > i2[field]) {
           return this.isAscending ? 1 : -1;
         } else if (i1[field] < i2[field]) {
@@ -164,6 +177,11 @@ export default {
         }
         return 0;
       });
+
+      // INFO: Paginate data if in Pagination View Mode
+      if (this.viewMode === "LimitOffset") {
+        this.changePage(this.pagination.currentPage);
+      }
     },
     changePage(page) {
       const { perPage } = this.pagination;
