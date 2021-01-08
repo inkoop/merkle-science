@@ -45,6 +45,34 @@
             readonly
           />
         </div>
+        <div class="control is-inline">
+          <div class="radio">
+            <input
+              readonly
+              type="radio"
+              name="isPaid"
+              id="paid"
+              :checked="selectedInvoice.isPaid"
+            />
+            <label for="paid">Paid</label>
+          </div>
+          <div class="radio">
+            <input
+              readonly
+              type="radio"
+              name="isPaid"
+              id="notPaid"
+              :checked="!selectedInvoice.isPaid"
+            />
+            <label for="notPaid">Not Paid</label>
+          </div>
+        </div>
+        <div class="buttons">
+          <button class="button" @click="$emit('toggleModal')">Cancel</button>
+          <button class="button is-primary">
+            Update Details
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -113,6 +141,16 @@ export default {
 .control {
   margin-bottom: 27px;
 
+  &.is-inline {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  &:last-of-type {
+    margin-bottom: 21px;
+  }
+
   .label {
     display: block;
     margin-bottom: 8px;
@@ -142,6 +180,58 @@ export default {
     font-size: 16px;
     line-height: 140%;
     color: var(--color-grey-9);
+  }
+
+  .radio {
+    input {
+      margin-right: 8px;
+    }
+    label {
+      font-family: var(--font-secondary);
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 140%;
+      color: var(--color-grey-9);
+
+      margin-right: 27px;
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+
+  .button {
+    background: var(--color-grey-white);
+    border: 1px solid var(--color-grey-2);
+    box-shadow: 0px 1px 3px rgba(0, 52, 102, 0.06),
+      0px 1px 2px rgba(0, 52, 102, 0.12);
+    border-radius: 2px;
+    padding: 4px 8px;
+
+    cursor: pointer;
+    outline: none;
+
+    font-family: var(--font-secondary);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 140%;
+    color: var(--color-grey-9);
+
+    &:first-of-type {
+      margin-right: 12px;
+    }
+
+    &.is-primary {
+      background: var(--color-blue-600);
+      color: var(--color-grey-white);
+      border: none;
+      text-shadow: 0px 1px 3px rgba(0, 52, 102, 0.06),
+        0px 1px 2px rgba(0, 52, 102, 0.12);
+    }
   }
 }
 
