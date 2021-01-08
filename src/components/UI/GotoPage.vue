@@ -83,16 +83,16 @@ export default {
   props: ["currentPage", "totalPages"],
   data() {
     return {
-      page: this.$props.currentPage + 1,
-    };
+      page: this.$props.currentPage + 1
+    }
   },
   methods: {
     handleSubmit(e) {
-      e.preventDefault();
-      this.$emit("changePage", this.page - 1);
-    },
-  },
-};
+      e.preventDefault()
+      this.$emit("changePage", this.page - 1)
+    }
+  }
+}
 </script>
 
 <style lang="scss">

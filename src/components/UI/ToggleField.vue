@@ -4,7 +4,7 @@
       class="toggle-container__bar"
       :class="{
         first: viewMode === 'LimitOffset',
-        second: viewMode === 'Infinite',
+        second: viewMode === 'Infinite'
       }"
     />
     <div
@@ -30,10 +30,10 @@ export default {
   props: ["viewMode"],
   methods: {
     selectOption(option) {
-      this.selectedOption = option;
-    },
-  },
-};
+      this.selectedOption = option
+    }
+  }
+}
 </script>
 
 <style lang="scss">

@@ -6,7 +6,7 @@ export const invoices = [
     creditsUsed: 540,
     creditsLimit: 1000,
     isPaid: false,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421499",
@@ -15,7 +15,7 @@ export const invoices = [
     creditsUsed: 540,
     creditsLimit: 1000,
     isPaid: false,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421500",
@@ -24,7 +24,7 @@ export const invoices = [
     creditsUsed: 891,
     creditsLimit: 1000,
     isPaid: true,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421501",
@@ -33,7 +33,7 @@ export const invoices = [
     creditsUsed: 300,
     creditsLimit: 1000,
     isPaid: true,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421502",
@@ -42,7 +42,7 @@ export const invoices = [
     creditsUsed: 555,
     creditsLimit: 1000,
     isPaid: true,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421503",
@@ -51,7 +51,7 @@ export const invoices = [
     creditsUsed: 891,
     creditsLimit: 1000,
     isPaid: false,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421504",
@@ -60,7 +60,7 @@ export const invoices = [
     creditsUsed: 434,
     creditsLimit: 1000,
     isPaid: true,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421505",
@@ -69,7 +69,7 @@ export const invoices = [
     creditsUsed: 213,
     creditsLimit: 1000,
     isPaid: true,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421506",
@@ -78,7 +78,7 @@ export const invoices = [
     creditsUsed: 322,
     creditsLimit: 1000,
     isPaid: true,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421507",
@@ -87,7 +87,7 @@ export const invoices = [
     creditsUsed: 632,
     creditsLimit: 1000,
     isPaid: false,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421508",
@@ -96,7 +96,7 @@ export const invoices = [
     creditsUsed: 540,
     creditsLimit: 1000,
     isPaid: false,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421509",
@@ -105,7 +105,7 @@ export const invoices = [
     creditsUsed: 540,
     creditsLimit: 1000,
     isPaid: false,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421510",
@@ -114,7 +114,7 @@ export const invoices = [
     creditsUsed: 891,
     creditsLimit: 1000,
     isPaid: true,
-    receiptUrl: "https://google.com",
+    receiptUrl: "https://google.com"
   },
   {
     id: "MS7421511",
@@ -123,6 +123,6 @@ export const invoices = [
     creditsUsed: 300,
     creditsLimit: 1000,
     isPaid: true,
-    receiptUrl: "https://google.com",
-  },
-];
+    receiptUrl: "https://google.com"
+  }
+]

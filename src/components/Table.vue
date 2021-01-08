@@ -30,7 +30,7 @@
                 class="progress-bar__progress"
                 :style="{
                   width: `${(invoice.creditsUsed / invoice.creditsLimit) *
-                    100}%`,
+                    100}%`
                 }"
               />
             </div>
@@ -88,15 +88,15 @@
 </template>
 
 <script>
-import { format } from "date-fns";
+import { format } from "date-fns"
 
-import SearchField from "./UI/SearchField";
-import ToggleField from "./UI/ToggleField";
-import Pagination from "./UI/Pagination";
-import GotoPage from "./UI/GotoPage";
-import Modal from "./UI/Modal";
+import SearchField from "./UI/SearchField"
+import ToggleField from "./UI/ToggleField"
+import Pagination from "./UI/Pagination"
+import GotoPage from "./UI/GotoPage"
+import Modal from "./UI/Modal"
 
-import { invoices as allInvoices } from "../mock";
+import { invoices as allInvoices } from "../mock"
 
 export default {
   name: "Table",
@@ -108,43 +108,43 @@ export default {
       pagination: {
         currentPage: 0,
         perPage: 6,
-        totalPages: 0,
+        totalPages: 0
       },
       sortField: "",
       viewMode: "LimitOffset",
       isAscending: true,
       isOpen: false,
-      selectedInvoice: {},
-    };
+      selectedInvoice: {}
+    }
   },
   created() {
-    const { perPage } = this.pagination;
-    this.invoices = allInvoices.slice(0, perPage);
-    this.pagination.totalPages = Math.ceil(allInvoices.length / perPage);
+    const { perPage } = this.pagination
+    this.invoices = allInvoices.slice(0, perPage)
+    this.pagination.totalPages = Math.ceil(allInvoices.length / perPage)
   },
   watch: {
     viewMode() {
       if (this.viewMode === "Infinite") {
-        this.invoices = allInvoices;
+        this.invoices = allInvoices
       } else {
-        this.invoices = allInvoices.slice(0, this.pagination.perPage);
+        this.invoices = allInvoices.slice(0, this.pagination.perPage)
       }
-    },
+    }
   },
   methods: {
     openModal(invoice) {
-      this.selectedInvoice = invoice;
-      this.isOpen = true;
+      this.selectedInvoice = invoice
+      this.isOpen = true
     },
     toggleModal() {
-      this.isOpen = !this.isOpen;
+      this.isOpen = !this.isOpen
     },
     selectViewMode(mode) {
-      this.viewMode = mode;
+      this.viewMode = mode
     },
     handleSearch(query) {
-      const lowerCaseQuery = query.toLowerCase();
-      this.invoices = allInvoices.filter((invoice) => {
+      const lowerCaseQuery = query.toLowerCase()
+      this.invoices = allInvoices.filter(invoice => {
         return (
           invoice.id.toLowerCase().includes(lowerCaseQuery) ||
           String(invoice.amount)
@@ -156,36 +156,36 @@ export default {
           format(invoice.timePeriod, "d MMM yyyy")
             .toLowerCase()
             .includes(lowerCaseQuery)
-        );
-      });
-      this.viewMode = "Infinite";
+        )
+      })
+      this.viewMode = "Infinite"
     },
     sortRows(field) {
       if (this.sortField === field) {
-        this.isAscending = !this.isAscending;
+        this.isAscending = !this.isAscending
       }
 
-      this.sortField = field;
+      this.sortField = field
       this.invoices = allInvoices.sort((i1, i2) => {
         if (i1[field] > i2[field]) {
-          return this.isAscending ? 1 : -1;
+          return this.isAscending ? 1 : -1
         } else if (i1[field] < i2[field]) {
-          return this.isAscending ? -1 : 1;
+          return this.isAscending ? -1 : 1
         }
-        return 0;
-      });
+        return 0
+      })
       // FIXME:
-      this.viewMode = "Infinite";
+      this.viewMode = "Infinite"
     },
     changePage(page) {
-      const { perPage } = this.pagination;
-      const start = page * perPage;
-      const end = page * perPage + perPage;
-      this.pagination.currentPage = page;
-      this.invoices = allInvoices.slice(start, end);
-    },
-  },
-};
+      const { perPage } = this.pagination
+      const start = page * perPage
+      const end = page * perPage + perPage
+      this.pagination.currentPage = page
+      this.invoices = allInvoices.slice(start, end)
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

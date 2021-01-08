@@ -15,8 +15,8 @@
 <script>
 export default {
   name: "Pagination",
-  props: ["currentPage", "totalPages"],
-};
+  props: ["currentPage", "totalPages"]
+}
 </script>
 
 <style lang="scss">

@@ -81,8 +81,8 @@
 <script>
 export default {
   name: "Modal",
-  props: ["isOpen", "selectedInvoice"],
-};
+  props: ["isOpen", "selectedInvoice"]
+}
 </script>
 
 <style lang="scss">

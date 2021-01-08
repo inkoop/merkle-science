@@ -53,16 +53,16 @@ export default {
   name: "SearchField",
   data() {
     return {
-      query: "",
-    };
+      query: ""
+    }
   },
   methods: {
     clearQuery() {
-      this.query = "";
-      this.$emit("search", "");
-    },
-  },
-};
+      this.query = ""
+      this.$emit("search", "")
+    }
+  }
+}
 </script>
 
 <style lang="scss">
