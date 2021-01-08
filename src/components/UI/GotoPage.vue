@@ -139,7 +139,7 @@ export default {
       0px 2px 4px rgba(0, 52, 102, 0.1);
     border-radius: 2px;
 
-    padding: 4px 10px;
+    padding: 5px 10px;
     border: none;
 
     font-family: var(--font-secondary);

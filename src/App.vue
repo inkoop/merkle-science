@@ -27,10 +27,17 @@ export default {
   --color-grey-5: #606d7c;
   --color-grey-9: #12181f;
 
+  --modal-background: #181e25;
+
   --container-width: 1040px;
 
   --font-primary: "Inter", sans-serif;
   --font-secondary: "IBM Plex Sans", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
 }
 
 #app {

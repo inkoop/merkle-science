@@ -30,6 +30,13 @@ export default {
     margin-right: 3px;
     cursor: pointer;
 
+    font-family: var(--font-primary);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: var(--color-grey-9);
+
     &.is-selected {
       color: var(--color-grey-white);
       border-radius: 2px;

@@ -74,7 +74,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 
-  width: 165px;
+  width: 200px;
 
   border: 1px solid var(--color-grey-2);
   box-shadow: 0px 1px 3px rgba(0, 52, 102, 0.06),
@@ -95,12 +95,12 @@ export default {
     transition: all 0.3s ease-out;
 
     &.first {
-      left: 5px;
-      width: 110px;
+      left: 3px;
+      width: 115px;
     }
     &.second {
-      left: 113px;
-      width: 73px;
+      left: 115px;
+      width: 80px;
     }
   }
 

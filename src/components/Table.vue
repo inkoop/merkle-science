@@ -23,7 +23,9 @@
           v-for="invoice in filteredInvoices"
           :key="invoice.id"
         >
-          <td class="table-column">{{ invoice.id }}</td>
+          <td class="table-column invoice-id" @click="openModal(invoice)">
+            {{ invoice.id }}
+          </td>
           <td class="table-column">{{ invoice.amount }}</td>
           <td class="table-column">{{ invoice.timePeriod | formatDate }}</td>
           <td class="table-column progress-container">
@@ -80,6 +82,12 @@
         />
       </tfoot>
     </div>
+    <Modal
+      v-if="isOpen"
+      :isOpen="isOpen"
+      :selectedInvoice="selectedInvoice"
+      @toggleModal="toggleModal"
+    />
   </div>
 </template>
 
@@ -90,13 +98,14 @@ import SearchField from "./UI/SearchField";
 import ToggleField from "./UI/ToggleField";
 import Pagination from "./UI/Pagination";
 import GotoPage from "./UI/GotoPage";
+import Modal from "./UI/Modal";
 
 import { invoices } from "../mock";
 
 export default {
   name: "Table",
   props: { msg: String },
-  components: { SearchField, ToggleField, Pagination, GotoPage },
+  components: { SearchField, ToggleField, Pagination, GotoPage, Modal },
   data() {
     return {
       filteredInvoices: invoices,
@@ -107,6 +116,8 @@ export default {
       },
       sortField: "",
       isAscending: true,
+      isOpen: false,
+      selectedInvoice: {},
     };
   },
   created() {
@@ -115,6 +126,13 @@ export default {
     this.pagination.totalPages = Math.ceil(invoices.length / perPage);
   },
   methods: {
+    openModal(invoice) {
+      this.selectedInvoice = invoice;
+      this.isOpen = true;
+    },
+    toggleModal() {
+      this.isOpen = !this.isOpen;
+    },
     handleSearch(query) {
       const lowerCaseQuery = query.toLowerCase();
       this.filteredInvoices = invoices.filter((invoice) => {
@@ -194,6 +212,14 @@ export default {
   }
 }
 
+.invoice-id {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-blue-600) !important;
+  }
+}
+
 .table {
   display: flex;
   flex-direction: column;
@@ -231,10 +257,6 @@ export default {
     tr {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1.5fr 1fr 1fr;
-
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.02);
-      }
     }
 
     td {
